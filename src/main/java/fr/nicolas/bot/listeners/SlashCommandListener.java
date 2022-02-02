@@ -1,12 +1,11 @@
 package fr.nicolas.bot.listeners;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import fr.nicolas.bot.commands.GreetCommand;
-import fr.nicolas.bot.commands.PingCommand;
-import fr.nicolas.bot.commands.SlashCommand;
+import fr.nicolas.bot.commands.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,8 @@ public class SlashCommandListener {
 	static {
 		//We register our commands here when the class is initialized
 		commands.add(new PingCommand());
-		commands.add(new GreetCommand());
+		commands.add(new Dice());
+		commands.add(new covidStats());
 	}
 
 	public static Mono<Void> handle(ChatInputInteractionEvent event) {
@@ -29,7 +29,14 @@ public class SlashCommandListener {
 				// Get the first (and only) item in the flux that matches our filter
 				.next()
 				//have our command class handle all the logic related to its specific command.
-				.flatMap(command -> command.handle(event));
+				.flatMap(command -> {
+						try {
+								return command.handle(event);
+						} catch (IOException e) {
+								e.printStackTrace();
+						}
+						return null;
+				});
 	}
 
 }

@@ -1,0 +1,19 @@
+{
+  "name": "dice",
+  "description": "\uD83C\uDFB2 Permet d'effectuer un jet de dé",
+  "options": [
+    {
+      "name": "face",
+      "description": "Nombre de face de votre dé",
+      "type": 4,
+      "required": true
+    },
+    {
+      "name": "jet",
+      "description": "Nombre de jet de dé",
+      "type": 4,
+      "required": true
+
+    }
+  ]
+}

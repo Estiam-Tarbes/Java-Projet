@@ -1,0 +1,63 @@
+package fr.nicolas.bot.commands;
+
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.object.command.ApplicationCommandInteractionOption;
+import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
+import discord4j.core.spec.EmbedCreateSpec;
+import discord4j.rest.util.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Dice implements SlashCommand {
+  private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+  @Override
+  public String getName() {
+	return "dice";
+  }
+
+  @Override
+  public Mono<Void> handle(ChatInputInteractionEvent event) {
+
+	int face = event.getOption("face")
+			.flatMap(ApplicationCommandInteractionOption::getValue)
+					.map(ApplicationCommandInteractionOptionValue::asLong)
+					.get().intValue();
+
+	int jet = event.getOption("jet")
+			.flatMap(ApplicationCommandInteractionOption::getValue)
+			.map(ApplicationCommandInteractionOptionValue::asLong)
+			.get().intValue();
+
+	String roll_txt = "";
+
+	for (int i = 0; i < jet; i++) {
+		int val = getRandomNumberInRange(1, face);
+		System.out.print(val);
+		roll_txt += "**Jet n°"+(i+1)+" :** "+ val +"\n";
+	}
+
+	String desc = "**Lancée de " + jet + " dés de "+ face + " faces.**\n\n" +roll_txt;
+
+	return event.reply()
+			.withEphemeral(false)
+			.withEmbeds(
+							EmbedCreateSpec.builder()
+											.color(Color.TAHITI_GOLD)
+											.description(desc)
+											.build()
+			);
+
+  }
+
+	private static int getRandomNumberInRange(int min, int max) {
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+}

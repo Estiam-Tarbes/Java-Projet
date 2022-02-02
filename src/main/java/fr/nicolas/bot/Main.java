@@ -12,7 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		//Creates the gateway client and connects to the gateway
-		final GatewayDiscordClient client = DiscordClientBuilder.create("").build()
+		final GatewayDiscordClient client = DiscordClientBuilder.create("ODk0MjY4MjkwMTM2OTM2NDU4.YVniPw.Gpy_VBqm48zsFvmBdVMaGZUMH9k").build()
 				.login()
 				.block();
 
