@@ -11,21 +11,21 @@ public class Main {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-		//Creates the gateway client and connects to the gateway
-		final GatewayDiscordClient client = DiscordClientBuilder.create("ODk0MjY4MjkwMTM2OTM2NDU4.YVniPw.Gpy_VBqm48zsFvmBdVMaGZUMH9k").build()
+		//Création du client et se connecte à la passerelle.
+		final GatewayDiscordClient client = DiscordClientBuilder.create("").build()
 				.login()
 				.block();
 
 		try {
 			new GlobalCommandRegistrar(client.getRestClient()).registerCommands();
 		} catch (Exception e) {
-			LOGGER.error("Error trying to register global slash commands", e);
+			LOGGER.error("Erreur lors de l'enregistrement des commandes !", e);
 		}
 
-		//Register our slash command listener
+		//Récupération de l'action lors de l'execution d'une commande slash
 		client.on(ChatInputInteractionEvent.class, SlashCommandListener::handle)
 				.then(client.onDisconnect())
-				.block(); // We use .block() as there is not another non-daemon thread and the jvm would close otherwise.
+				.block(); // Nous utilisons .block() car il n'y a pas d'autre thread non-daemon et le jvm se fermerait sinon.
 
 
 	}
