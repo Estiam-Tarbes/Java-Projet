@@ -19,6 +19,7 @@ public class SlashCommandListener {
 		commands.add(new PingCommand());
 		commands.add(new Dice());
 		commands.add(new covidStats());
+		commands.add(new Calendar());
 	}
 
 	public static Mono<Void> handle(ChatInputInteractionEvent event) {
