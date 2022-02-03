@@ -1,6 +1,10 @@
 package fr.nicolas.bot.commands;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.object.command.ApplicationCommandInteractionOption;
+import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
+import discord4j.core.object.component.ActionRow;
+import discord4j.core.object.component.SelectMenu;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import fr.nicolas.bot.Main;
@@ -28,6 +32,16 @@ public class Start implements SlashCommand{
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
 
+        String Nom = event.getOption("nom")
+                .flatMap(ApplicationCommandInteractionOption::getValue)
+                .map(ApplicationCommandInteractionOptionValue::asString)
+                .get();
+
+        // Whatever channel you want the message inSnowflake channelId = Snowflake.of(0);
+        SelectMenu select = SelectMenu.of("select_race",    SelectMenu.Option.of("label", "value"),    SelectMenu.Option.of("label2", "value2")).withPlaceholder("Please select an option <3");
+
+        return event.reply().withEphemeral(true).withComponents(ActionRow.of(select));
+
         /*initConnection();
 
         mysql.query("SELECT * FROM users WHERE uuid = '"+ event.getInteraction().getUser().getId().asString() +"'", rs -> {
@@ -42,15 +56,6 @@ public class Start implements SlashCommand{
 
         connectionPool.close();*/
 
-        return event.reply()
-                .withEphemeral(false)
-                .withEmbeds(
-                        EmbedCreateSpec.builder()
-                                .color(Color.TAHITI_GOLD)
-                                //on concatene du texte pour afficher la données contenue dans la variable
-                                .description("")
-                                .build()
-                );
     }
 
     private void initConnection() {

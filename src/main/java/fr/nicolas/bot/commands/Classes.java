@@ -10,12 +10,9 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Random;
 
-public class Roles implements SlashCommand{
+public class Classes implements SlashCommand{
     private BasicDataSource connectionPool;
     private MySQL mysql;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());

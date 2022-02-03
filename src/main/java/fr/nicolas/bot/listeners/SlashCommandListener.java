@@ -5,7 +5,6 @@ import fr.nicolas.bot.commands.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class SlashCommandListener {
 		commands.add(new covidStats());
 		commands.add(new Calendar());
 		commands.add(new Start());
-		commands.add(new Roles());
+		commands.add(new Classes());
 		commands.add(new Races());
 	}
 
