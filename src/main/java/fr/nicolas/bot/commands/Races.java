@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Races implements SlashCommand{
@@ -26,14 +27,13 @@ public class Races implements SlashCommand{
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
-        final String[] liste = {""};
-
+        ArrayList<String> liste = new ArrayList<String>();
         initConnection();
 
         mysql.query("SELECT * FROM races", rs -> {
             try {
                 while (rs.next()){
-                    liste[0] += rs.getString("nom") + "\n";
+                    liste.add(rs.getString("nom"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class Races implements SlashCommand{
                         EmbedCreateSpec.builder()
                                 .color(Color.TAHITI_GOLD)
                                 //on concatene du texte pour afficher la données contenue dans la variable
-                                .description("Vous pouvez choisir parmi tous ses classes :\n" + liste.toString())
+                                .description("Vous pouvez choisir parmi tous ses classes :\n\n- " +liste.toString().replace("[", "").replace("]", "").replaceAll(",", "\n- "))
                                 .build()
                 );
     }

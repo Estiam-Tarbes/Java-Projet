@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Roles implements SlashCommand{
@@ -28,11 +29,12 @@ public class Roles implements SlashCommand{
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
 
         initConnection();
+        ArrayList<String> liste = new ArrayList<String>();
 
         mysql.query("SELECT * FROM classes", rs -> {
             try {
                 while (rs.next()){
-                    liste[0] += rs.getString("nom") + "\n";
+                    liste.add(rs.getString("nom"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -49,7 +51,7 @@ public class Roles implements SlashCommand{
                         EmbedCreateSpec.builder()
                                 .color(Color.TAHITI_GOLD)
                                 //on concatene du texte pour afficher la données contenue dans la variable
-                                .description("")
+                                .description(liste.toString().replace("[", "").replace("]", "").replaceAll(",", "\n"))
                                 .build()
                 );
     }
