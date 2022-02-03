@@ -6,6 +6,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SlashCommandListener {
 				.flatMap(command -> {
 						try {
 								return command.handle(event);
-						} catch (IOException e) {
+						} catch (SQLException e) {
 								e.printStackTrace();
 						}
 						return null;

@@ -6,12 +6,9 @@ import discord4j.core.object.component.ActionRow;
 import discord4j.core.object.component.Button;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
-
-import java.io.IOException;
 
 public class covidStats implements SlashCommand {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -22,7 +19,7 @@ public class covidStats implements SlashCommand {
 	}
 
 	@Override
-	public Mono<Void> handle(ChatInputInteractionEvent event) throws IOException, JSONException {
+	public Mono<Void> handle(ChatInputInteractionEvent event) {
 
 		return event.reply()
 						.withEphemeral(false)
