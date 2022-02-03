@@ -3,6 +3,7 @@ package fr.nicolas.bot.commands;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
+import fr.nicolas.bot.Main;
 import fr.nicolas.database.MySQL;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
@@ -14,38 +15,36 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class Roles implements SlashCommand{
+public class Start implements SlashCommand{
     private BasicDataSource connectionPool;
     private MySQL mysql;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public String getName() {
-        return "roles";
+        return "start";
     }
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
 
-        initConnection();
+        /*initConnection();
 
-        mysql.query("SELECT * FROM classes", rs -> {
+        mysql.query("SELECT * FROM users WHERE uuid = '"+ event.getInteraction().getUser().getId().asString() +"'", rs -> {
             try {
-                while (rs.next()){
-                    liste[0] += rs.getString("nom") + "\n";
+                if (rs.next()) {
+                    System.out.println(rs.getInt("niveau"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
 
-        connectionPool.close();
+        connectionPool.close();*/
 
         return event.reply()
-
                 .withEphemeral(false)
                 .withEmbeds(
-
                         EmbedCreateSpec.builder()
                                 .color(Color.TAHITI_GOLD)
                                 //on concatene du texte pour afficher la données contenue dans la variable

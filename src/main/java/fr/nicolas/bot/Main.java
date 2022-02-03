@@ -26,7 +26,7 @@ public class Main {
 
 
 				//Création du client et se connecte à la passerelle.
-				final GatewayDiscordClient client = DiscordClientBuilder.create("ODk0MjY4MjkwMTM2OTM2NDU4.YVniPw.Gpy_VBqm48zsFvmBdVMaGZUMH9k").build()
+				final GatewayDiscordClient client = DiscordClientBuilder.create("OTM4NzMyMjExNjk0MzY2NzYw.YfukgA.506Y9jesDH3osdrsU1GU5XMj-9M").build()
 						.login()
 						.block();
 

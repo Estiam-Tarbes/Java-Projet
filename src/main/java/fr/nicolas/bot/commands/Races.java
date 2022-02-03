@@ -14,22 +14,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class Roles implements SlashCommand{
+public class Races implements SlashCommand{
     private BasicDataSource connectionPool;
     private MySQL mysql;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public String getName() {
-        return "roles";
+        return "races";
     }
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
+        final String[] liste = {""};
 
         initConnection();
 
-        mysql.query("SELECT * FROM classes", rs -> {
+        mysql.query("SELECT * FROM races", rs -> {
             try {
                 while (rs.next()){
                     liste[0] += rs.getString("nom") + "\n";
@@ -49,7 +50,7 @@ public class Roles implements SlashCommand{
                         EmbedCreateSpec.builder()
                                 .color(Color.TAHITI_GOLD)
                                 //on concatene du texte pour afficher la données contenue dans la variable
-                                .description("")
+                                .description("Vous pouvez choisir parmi tous ses classes :\n" + liste.toString())
                                 .build()
                 );
     }
