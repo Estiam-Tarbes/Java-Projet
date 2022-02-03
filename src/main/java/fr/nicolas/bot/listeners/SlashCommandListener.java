@@ -21,6 +21,7 @@ public class SlashCommandListener {
 		commands.add(new Dice());
 		commands.add(new covidStats());
 		commands.add(new Calendar());
+		commands.add(new Roles());
 	}
 
 	public static Mono<Void> handle(ChatInputInteractionEvent event) {
