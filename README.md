@@ -7,6 +7,7 @@
 
 - [Nicolas Sintey](https://www.github.com/idrunk65)
 - [Fabien Travert](https://www.github.com/fabtra31)
+- [François SERRA](https://github.com/Machurui)
 
 
 ## Features
