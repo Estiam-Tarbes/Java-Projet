@@ -15,6 +15,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
 
+// Crée par François
+
 public class Races implements SlashCommand{
     private BasicDataSource connectionPool;
     private MySQL mysql;
@@ -27,12 +29,17 @@ public class Races implements SlashCommand{
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
+        // Création d'une liste qui va contenir les races de notre jeu.
         ArrayList<String> liste = new ArrayList<String>();
+        // Création de la connection à la base de donnée
         initConnection();
 
+        // Requête à la base de donnée
         mysql.query("SELECT * FROM races", rs -> {
             try {
+                // boucle pour récupérer les résultats
                 while (rs.next()){
+                    // sauvegarde dans la liste
                     liste.add(rs.getString("nom"));
                 }
             } catch (SQLException e) {
@@ -40,8 +47,10 @@ public class Races implements SlashCommand{
             }
         });
 
+        // Fermeture de connexion à la base de données
         connectionPool.close();
 
+        // Envoie de la réponse à l'utilisateur
         return event.reply()
 
                 .withEphemeral(false)

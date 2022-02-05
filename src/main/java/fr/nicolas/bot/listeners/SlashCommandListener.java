@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// Crée par Nicolas S.
+
 public class SlashCommandListener {
 
 	// Liste contenant les commandes actives

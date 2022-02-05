@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+// Crée par Fabien
+
 public class Calendar implements SlashCommand{
     private BasicDataSource connectionPool;
     private MySQL mysql;
@@ -27,22 +29,11 @@ public class Calendar implements SlashCommand{
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
 
-        initConnection();
 
-        mysql.query("SELECT * FROM users WHERE uuid = '"+ event.getInteraction().getUser().getId().asString() +"'", rs -> {
-            try {
-                if (rs.next()) {
-                    System.out.println(rs.getInt("niveau"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        connectionPool.close();
-
-    //On met dans une variable de type chaine de caractere une valeur systeme pour récuperer la date et l'heure avec des attributs spécifiques
+        //On met dans une variable de type chaine de caractere une valeur systeme pour récuperer la date et l'heure avec des attributs spécifiques
         String HeureDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+
+        // Envoie de la réponse à l'utilisateur
         return event.reply()
                 .withEphemeral(false)
                 .withEmbeds(
@@ -55,14 +46,4 @@ public class Calendar implements SlashCommand{
 
     }
 
-    private void initConnection() {
-        connectionPool = new BasicDataSource();
-        connectionPool.setDriverClassName("com.mysql.jdbc.Driver");
-        connectionPool.setUsername("estiam");
-        connectionPool.setPassword("m8Fd*6MbNRCKxiu4");
-        connectionPool.setUrl("jdbc:mysql://5.196.224.14:3306/bot_discord_estiam?autoReconnect=true");
-        connectionPool.setInitialSize(1);
-        connectionPool.setMaxTotal(10);
-        mysql = new MySQL(connectionPool);
-    }
 }

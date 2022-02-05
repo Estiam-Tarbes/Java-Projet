@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+// Crée par Nicolas S.
 
 public class GlobalCommandRegistrar {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -25,42 +26,41 @@ public class GlobalCommandRegistrar {
 		this.restClient = restClient;
 	}
 
-	//Since this will only run once on startup, blocking is okay.
+	// Enrengistrement des commandes
 	protected void registerCommands() throws IOException {
-		//Create an ObjectMapper that supports Discord4J classes
+		//Créer un ObjectMapper qui supporte les classes Discord4J
 		final JacksonResources d4jMapper = JacksonResources.create();
 
-		// Convenience variables for the sake of easier to read code below
+		// Variables de commodité pour faciliter la lecture du code ci-dessous
 		final ApplicationService applicationService = restClient.getApplicationService();
 		final long applicationId = restClient.getApplicationId().block();
 
-		//Get our commands json from resources as command data
+		//Récupération de nos commandes json depuis les ressources comme données de commande
 		List<ApplicationCommandRequest> commands = new ArrayList<>();
 		for (String json : getCommandsJson()) {
 			ApplicationCommandRequest request = d4jMapper.getObjectMapper()
 					.readValue(json, ApplicationCommandRequest.class);
 
-			commands.add(request); //Add to our array list
+			commands.add(request); //Ajout dans une liste
 		}
 
-        /* Bulk overwrite commands. This is now idempotent, so it is safe to use this even when only 1 command
-        is changed/added/removed
+        /* Envoie au près de discord pour enrengistrer les commandes
         */
 		applicationService.bulkOverwriteGlobalApplicationCommand(applicationId, commands)
-				.doOnNext(ignore -> LOGGER.debug("Successfully registered Global Commands"))
-				.doOnError(e -> LOGGER.error("Failed to register global commands", e))
+				.doOnNext(ignore -> LOGGER.debug("Commandes globales enregistrées avec succès"))
+				.doOnError(e -> LOGGER.error("Échec de l'enregistrement des commandes globales", e))
 				.subscribe();
 	}
 
-	/* The two below methods are boilerplate that can be completely removed when using Spring Boot */
+	// Récupération des fichiers json
 
 	private static List<String> getCommandsJson() throws IOException {
-		//The name of the folder the commands json is in, inside our resources folder
-		final String commandsFolderName = "commands/";
+		//Emplacement des commandes
+		final String commandsFolderName = "commandes/";
 
-		//Get the folder as a resource
+		//Récupération des fichiers json
 		URL url = GlobalCommandRegistrar.class.getClassLoader().getResource(commandsFolderName);
-		Objects.requireNonNull(url, commandsFolderName + " could not be found");
+		Objects.requireNonNull(url, commandsFolderName + " n'a pas pu être trouvé");
 
 		File folder;
 		try {
@@ -69,9 +69,9 @@ public class GlobalCommandRegistrar {
 			folder = new File(url.getPath());
 		}
 
-		//Get all the files inside this folder and return the contents of the files as a list of strings
+		//Récupère tous les fichiers contenus dans ce dossier et renvoie le contenu des fichiers sous la forme d'une liste de chaînes de caractères.
 		List<String> list = new ArrayList<>();
-		File[] files = Objects.requireNonNull(folder.listFiles(), folder + " is not a directory");
+		File[] files = Objects.requireNonNull(folder.listFiles(), folder + " n'est pas un répertoire");
 
 		for (File file : files) {
 			String resourceFileAsString = getResourceFileAsString(commandsFolderName + file.getName());
@@ -80,11 +80,6 @@ public class GlobalCommandRegistrar {
 		return list;
 	}
 
-	/**
-	 * Gets a specific resource file as String
-	 * @param fileName The file path omitting "resources/"
-	 * @return The contents of the file as a String, otherwise throws an exception
-	 */
 	private static String getResourceFileAsString(String fileName) throws IOException {
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		try (InputStream resourceAsStream = classLoader.getResourceAsStream(fileName)) {

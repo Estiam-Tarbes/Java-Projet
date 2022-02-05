@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+// Crée par Nicolas S.
+
 public class MySQL {
 		private BasicDataSource connectionPool;
 
@@ -20,6 +22,7 @@ public class MySQL {
 				return connectionPool.getConnection();
 		}
 
+		// Création des tables
 		public void createTables(){
 				update("CREATE TABLE IF NOT EXISTS users (" +
 						"`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
@@ -46,6 +49,7 @@ public class MySQL {
 		}
 
 
+		// Requête pour mettre à jour des Informations
 		public void update(String qry){
 				try (Connection c = getConnection();
 				     PreparedStatement s = c.prepareStatement(qry)) {
@@ -55,6 +59,7 @@ public class MySQL {
 				}
 		}
 
+		// Requête pour récupérer des Informations
 		public Object query(String qry, Function<ResultSet, Object> consumer){
 				try (Connection c = getConnection();
 				     PreparedStatement s = c.prepareStatement(qry);
@@ -65,6 +70,7 @@ public class MySQL {
 				}
 		}
 
+		// Requête pour récupérer des Informations
 		public void query(String qry, Consumer<ResultSet> consumer){
 				try (Connection c = getConnection();
 				     PreparedStatement s = c.prepareStatement(qry);

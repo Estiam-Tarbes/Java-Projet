@@ -4,6 +4,7 @@ import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
 import discord4j.core.object.component.ActionRow;
+import discord4j.core.object.component.LayoutComponent;
 import discord4j.core.object.component.SelectMenu;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
@@ -32,29 +33,22 @@ public class Start implements SlashCommand{
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) throws SQLException {
 
+        // Récupération de l'option nom, définie par l'utilisateur lors de l'execution de la commende
         String Nom = event.getOption("nom")
                 .flatMap(ApplicationCommandInteractionOption::getValue)
                 .map(ApplicationCommandInteractionOptionValue::asString)
                 .get();
 
-        // Whatever channel you want the message inSnowflake channelId = Snowflake.of(0);
-        SelectMenu select = SelectMenu.of("select_race",    SelectMenu.Option.of("label", "value"),    SelectMenu.Option.of("label2", "value2")).withPlaceholder("Please select an option <3");
+        // Création d'un menu pour selectionner un type.
+        // Exemple de menu : https://discordjs.guide/assets/select.de25816c.png
+        SelectMenu select = SelectMenu.of("select-test",
+                SelectMenu.Option.of("label", "value"),
+                SelectMenu.Option.of("label2", "value2"),
+                SelectMenu.Option.of("label3", "value2")
+        );
 
-        return event.reply().withEphemeral(true).withComponents(ActionRow.of(select));
-
-        /*initConnection();
-
-        mysql.query("SELECT * FROM users WHERE uuid = '"+ event.getInteraction().getUser().getId().asString() +"'", rs -> {
-            try {
-                if (rs.next()) {
-                    System.out.println(rs.getInt("niveau"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        connectionPool.close();*/
+        // Envoie de la réponse à l'utilisateur
+        return event.reply("ok").withEphemeral(true).withComponents(ActionRow.of(select));
 
     }
 

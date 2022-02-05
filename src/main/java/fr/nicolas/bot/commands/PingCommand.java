@@ -7,6 +7,8 @@ import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 
+// Crée par Fabien
+
 public class PingCommand implements SlashCommand {
 
 	@Override
@@ -16,6 +18,8 @@ public class PingCommand implements SlashCommand {
 
 	@Override
 	public Mono<Void> handle(ChatInputInteractionEvent event) {
+
+		// Envoie de la réponse à l'utilisateur
 		return event.reply()
 				.withEphemeral(false)
 				.withEmbeds(

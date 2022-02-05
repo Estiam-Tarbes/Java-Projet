@@ -11,22 +11,20 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
+// Crée par Nicolas S.
+
 public class Main {
 		private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-		public static Main instance;
 		private static BasicDataSource connectionPool;
 		private static MySQL mysql;
 
-		private static final String TABLE = "users";
-
-
-		public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException {
 
 				initConnection();
 
 
 				//Création du client et se connecte à la passerelle.
-				final GatewayDiscordClient client = DiscordClientBuilder.create("OTM4NzMyMjExNjk0MzY2NzYw.YfukgA.506Y9jesDH3osdrsU1GU5XMj-9M").build()
+				final GatewayDiscordClient client = DiscordClientBuilder.create("").build()
 						.login()
 						.block();
 
@@ -43,25 +41,18 @@ public class Main {
 
 		}
 
+		// Création de la connection à la base de données ainsi que la création des tables
 		private static void initConnection() throws SQLException {
 				connectionPool = new BasicDataSource();
 				connectionPool.setDriverClassName("com.mysql.jdbc.Driver");
-				connectionPool.setUsername("estiam");
-				connectionPool.setPassword("m8Fd*6MbNRCKxiu4");
-				connectionPool.setUrl("jdbc:mysql://5.196.224.14:3306/bot_discord_estiam?autoReconnect=true");
+				connectionPool.setUsername("<utilisateur>");
+				connectionPool.setPassword("<mot de passe>");
+				connectionPool.setUrl("jdbc:mysql://<adresse>/<base de donnée>?autoReconnect=true");
 				connectionPool.setInitialSize(1);
 				connectionPool.setMaxTotal(10);
 				mysql = new MySQL(connectionPool);
 				mysql.createTables();
 
 				connectionPool.close();
-		}
-
-		public MySQL getMySQL() {
-				return mysql;
-		}
-
-		public static Main getInstance() {
-				return instance;
 		}
 }

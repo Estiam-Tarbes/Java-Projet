@@ -5,6 +5,9 @@ import reactor.core.publisher.Mono;
 
 import java.sql.SQLException;
 
+// Crée par Nicolas S.
+
+// Création d'une interface pour les commandes
 public interface SlashCommand {
 	String getName();
 
